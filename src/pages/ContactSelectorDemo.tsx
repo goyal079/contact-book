@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ContactSelectorDropdown } from '../components/ContactSelectorDropdown';
 
 interface Contact {
@@ -53,7 +53,9 @@ const generateContacts = (): Contact[] => {
 export const ContactSelectorDemo = () => {
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const contacts = generateContacts();
-
+  useEffect(()=>{
+    console.log(selectedContact)
+  },[selectedContact])
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8 font-sans">
       <div className="max-w-2xl mx-auto">
@@ -72,9 +74,9 @@ export const ContactSelectorDemo = () => {
               />
             </div>
 
-            {selectedContact && (
-              <div className="mt-6 p-6 bg-gray-50 rounded-xl border border-gray-100 transition-all duration-200">
-                <h2 className="text-lg font-semibold text-gray-800 mb-3">Selected Contact</h2>
+            <div className="mt-6 p-6 bg-gray-50 rounded-xl border border-gray-100 transition-all duration-200">
+              <h2 className="text-lg font-semibold text-gray-800 mb-3">Selected Contact</h2>
+              {selectedContact?.id ? (
                 <div className="space-y-2">
                   <div className="flex items-center">
                     <span className="text-gray-600 w-20">Name:</span>
@@ -85,8 +87,10 @@ export const ContactSelectorDemo = () => {
                     <span className="font-medium text-gray-800">{selectedContact.email}</span>
                   </div>
                 </div>
-              </div>
-            )}
+              ) : (
+                <p className="text-gray-500 italic">No contact selected</p>
+              )}
+            </div>
           </div>
         </div>
       </div>
